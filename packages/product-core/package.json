@@ -1,0 +1,12 @@
+{
+  "name": "@porvi/product-core",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "description": "Shared product contracts and starter data for Porvi projects",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  }
+}

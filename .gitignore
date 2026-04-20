@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build and cache output
+.turbo/
+**/.turbo/
+**/dist/
+**/.astro/
+coverage/
+coverage-*/
+
+# Local runtime state
+.porvi/
+.porvi-test/
+
+# Environment and local overrides
+.env
+.env.local
+.env.*.local
+
+# Local provider/runtime config. Keep generic examples under docs/contracts instead.
+configs/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+
+# Repo-local scratch files
+SKILL.md
+*archive*

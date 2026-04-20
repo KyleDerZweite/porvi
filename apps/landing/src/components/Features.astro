@@ -1,0 +1,157 @@
+---
+---
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-label"><span class="idx">01 -</span> The surface</div>
+    <h2 class="heading">
+      Everything a personal site needs. <em>Nothing a platform adds.</em>
+    </h2>
+    <p class="section-sub">
+      A single console for your sites, your domains, and the small pipeline between them. No
+      dashboards-within-dashboards, no seat math, no plan you age out of.
+    </p>
+
+    <div class="features">
+      <div class="feat span-3">
+        <div class="feat-label">Projects</div>
+        <h3>A repo per site. That's the whole model.</h3>
+        <p>
+          Push an Astro project. Porvi figures out the rest - builds it, versions it, keeps
+          the last ten deploys warm so you can roll back from a phone on a train.
+        </p>
+        <div class="feat-art">
+          <svg class="art-svg" viewBox="0 0 600 180" aria-hidden="true">
+            <defs>
+              <linearGradient id="sheet" x1="0" x2="1">
+                <stop offset="0" stop-color="#1c1812" />
+                <stop offset="1" stop-color="#141109" />
+              </linearGradient>
+              <pattern id="stripes-a" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="transparent" />
+                <rect width="1" height="8" fill="#2a241b" />
+              </pattern>
+            </defs>
+            <g>
+              <rect x="50" y="20" width="500" height="120" rx="8" fill="url(#sheet)" stroke="#2a241b" />
+              <rect x="50" y="20" width="500" height="120" rx="8" fill="url(#stripes-a)" opacity="0.5" />
+              <rect x="70" y="40" width="460" height="120" rx="8" fill="url(#sheet)" stroke="#2a241b" />
+              <rect x="90" y="60" width="420" height="120" rx="8" fill="#1c1812" stroke="#3a3123" />
+              <circle cx="110" cy="80" r="4" fill="#d9a066" />
+              <rect x="124" y="76" width="120" height="8" rx="2" fill="#3a3123" />
+              <rect x="124" y="92" width="220" height="4" rx="2" fill="#2a241b" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="feat span-3">
+        <div class="feat-label">Domains</div>
+        <h3>Point a record. It's already yours.</h3>
+        <p>
+          Custom domains aren't an upsell. Add a CNAME, we provision the cert, and it's live
+          under your name - not ours, not a subdomain, not "yours.ourdomain.app".
+        </p>
+        <div class="feat-art">
+          <svg class="art-svg" viewBox="0 0 600 180" aria-hidden="true">
+            <line x1="20" y1="90" x2="580" y2="90" stroke="#2a241b" stroke-dasharray="3 6" />
+            <g font-family="Geist Mono, monospace" font-size="11" fill="#8a8573">
+              <rect x="30" y="66" width="150" height="48" rx="6" fill="#1c1812" stroke="#2a241b" />
+              <text x="46" y="88">your.domain</text>
+              <text x="46" y="104" fill="#6b6456">CNAME →</text>
+
+              <rect x="240" y="66" width="120" height="48" rx="6" fill="#1c1812" stroke="#d9a066" />
+              <text x="256" y="88" fill="#d9a066">porvi</text>
+              <text x="256" y="104" fill="#8a8573">edge-03</text>
+
+              <rect x="420" y="66" width="150" height="48" rx="6" fill="#1c1812" stroke="#2a241b" />
+              <text x="436" y="88" fill="#9cc08a">● issued</text>
+              <text x="436" y="104" fill="#6b6456">TLS · 90d auto</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="feat span-2">
+        <div class="feat-label">Previews</div>
+        <h3>Every branch is a URL.</h3>
+        <p>Share unfinished thoughts without publishing them. Preview URLs expire, or don't. You decide.</p>
+        <div class="feat-art">
+          <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
+            <rect x="10" y="20" width="300" height="100" rx="8" fill="#1c1812" stroke="#2a241b" />
+            <circle cx="28" cy="38" r="4" fill="#3a3123" />
+            <circle cx="42" cy="38" r="4" fill="#3a3123" />
+            <circle cx="56" cy="38" r="4" fill="#3a3123" />
+            <rect x="80" y="30" width="210" height="16" rx="4" fill="#141109" />
+            <text x="88" y="42" font-family="Geist Mono" font-size="10" fill="#8a8573">preview-draft-8f2.porvi.site</text>
+            <rect x="30" y="64" width="120" height="8" rx="2" fill="#3a3123" />
+            <rect x="30" y="80" width="240" height="4" rx="2" fill="#2a241b" />
+            <rect x="30" y="90" width="200" height="4" rx="2" fill="#2a241b" />
+            <rect x="30" y="100" width="160" height="4" rx="2" fill="#2a241b" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="feat span-2">
+        <div class="feat-label">Deploys</div>
+        <h3>Push. Watch. Done.</h3>
+        <p>
+          The build log is plain text. The status is a single word. You know where your site
+          stands in one glance.
+        </p>
+        <div class="feat-art">
+          <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
+            <g font-family="Geist Mono" font-size="10.5" fill="#8a8573">
+              <text x="16" y="34">  cloning repo…</text>
+              <text x="16" y="52" fill="#c9bfa9">  running build</text>
+              <text x="16" y="70" fill="#9cc08a">✓ deploy · 11.8s</text>
+              <text x="16" y="96" fill="#6b6456">-------------</text>
+              <text x="16" y="114" fill="#d9a066">▲ live at your.domain</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="feat span-2">
+        <div class="feat-label">Identity</div>
+        <h3>One session, every site.</h3>
+        <p>
+          Sign in once. Your author identity follows across every site you own or contribute
+          to - no per-project accounts.
+        </p>
+        <div class="feat-art">
+          <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
+            <circle cx="160" cy="70" r="22" fill="#1c1812" stroke="#d9a066" />
+            <circle cx="160" cy="70" r="6" fill="#d9a066" />
+            <g stroke="#2a241b" stroke-dasharray="2 4">
+              <line x1="60" y1="40" x2="140" y2="60" />
+              <line x1="260" y1="40" x2="180" y2="60" />
+              <line x1="60" y1="100" x2="140" y2="80" />
+              <line x1="260" y1="100" x2="180" y2="80" />
+            </g>
+            <g fill="#141109" stroke="#2a241b">
+              <rect x="30" y="24" width="60" height="32" rx="4" />
+              <rect x="230" y="24" width="60" height="32" rx="4" />
+              <rect x="30" y="84" width="60" height="32" rx="4" />
+              <rect x="230" y="84" width="60" height="32" rx="4" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="feat span-6" style="min-height:auto; padding: 28px 32px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap: 24px; flex-wrap: wrap;">
+          <div style="display:flex; gap:32px; align-items:center; color: var(--paper-dim); font-size: 14px;">
+            <span style="font-family: var(--mono); font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: var(--paper-mute);">Also included</span>
+            <span>Edge caching</span>
+            <span>Form endpoints</span>
+            <span>Markdown → RSS</span>
+            <span>Access control</span>
+            <span>Analytics (honest)</span>
+          </div>
+          <a href="https://github.com/KyleDerZweite/porvi/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="font-size: 13px; color: var(--ember); font-family: var(--mono); letter-spacing: 0.04em;">Full changelog →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

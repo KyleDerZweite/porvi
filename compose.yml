@@ -1,0 +1,92 @@
+name: porvi
+
+x-podman-app: &podman-app
+  image: localhost/porvi-dev:local
+  build:
+    context: .
+    dockerfile: Containerfile.dev
+  init: true
+  userns_mode: keep-id
+  working_dir: /workspace
+  env_file:
+    - .env
+  environment:
+    PNPM_HOME: /pnpm
+    PNPM_STORE_DIR: /pnpm/store
+  volumes:
+    - .:/workspace:z
+    - pnpm-store:/pnpm/store:z
+
+services:
+  api:
+    <<: *podman-app
+    command:
+      - sh
+      - /workspace/scripts/dev-bootstrap.sh
+      - pnpm
+      - --filter
+      - "@porvi/api"
+      - dev
+    environment:
+      PLATFORM_PORT: "3000"
+      PLATFORM_REPO_ROOT: /workspace
+      PLATFORM_SQLITE_PATH: /workspace/.porvi/platform.sqlite
+      PLATFORM_PROVIDER_CONFIG_DIR: /workspace/configs/providers
+      PLATFORM_PUBLIC_API_URL: http://localhost:3000
+      PLATFORM_PUBLIC_APP_URL: http://localhost:5173
+      PLATFORM_PUBLIC_WEB_URL: http://localhost:4321
+      PLATFORM_SESSION_COOKIE_NAME: porvi_session
+      PLATFORM_PUBLISH_ROOT: /workspace/.porvi/published
+      PLATFORM_PREVIEW_ROOT: /workspace/.porvi/previews
+    ports:
+      - "3000:3000"
+
+  console:
+    <<: *podman-app
+    command:
+      - sh
+      - /workspace/scripts/dev-bootstrap.sh
+      - pnpm
+      - --filter
+      - "@porvi/console"
+      - exec
+      - vite
+      - --host
+      - 0.0.0.0
+      - --strictPort
+    depends_on:
+      - api
+    environment:
+      VITE_PLATFORM_API_URL: http://localhost:3000
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "250"
+    ports:
+      - "5173:5173"
+
+  landing:
+    <<: *podman-app
+    command:
+      - sh
+      - /workspace/scripts/dev-bootstrap.sh
+      - pnpm
+      - --filter
+      - "@porvi/landing"
+      - exec
+      - astro
+      - dev
+      - --host
+      - 0.0.0.0
+      - --port
+      - "4321"
+    depends_on:
+      - api
+    environment:
+      PUBLIC_PLATFORM_API_URL: http://localhost:3000
+      PUBLIC_PLATFORM_APP_URL: http://localhost:5173
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "250"
+    ports:
+      - "4321:4321"
+
+volumes:
+  pnpm-store:

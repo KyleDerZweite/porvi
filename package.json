@@ -1,0 +1,30 @@
+{
+  "name": "porvi",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.29.2",
+  "description": "A contract-first creator-site platform",
+  "license": "AGPL-3.0-only",
+  "author": "KyleDerZweite",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel --filter=@porvi/api --filter=@porvi/console --filter=@porvi/landing",
+    "dev:api": "turbo run dev --filter=@porvi/api",
+    "dev:console": "turbo run dev --filter=@porvi/console",
+    "dev:landing": "turbo run dev --filter=@porvi/landing",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "devDependencies": {
+    "@porvi/product-core": "workspace:*",
+    "@types/node": "^22.14.0",
+    "turbo": "^2.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  }
+}

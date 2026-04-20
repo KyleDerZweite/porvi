@@ -1,0 +1,130 @@
+---
+interface Props {
+  apiUrl: string;
+  appUrl: string;
+}
+
+const { apiUrl, appUrl } = Astro.props;
+---
+
+<nav class="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#">
+      <svg class="sigil" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="9.5" stroke="#d9a066" stroke-width="1" />
+        <path d="M4 11h14M11 4v14" stroke="#d9a066" stroke-width="1" />
+        <circle cx="11" cy="11" r="2.4" fill="#d9a066" />
+      </svg>
+      Porvi
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#showcase">Sites</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a id="nav-console" class="nav-cta is-loading" href={appUrl} hidden>
+      <span id="nav-console-label">Open console</span>
+      <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path
+          d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+    <button id="nav-signin" class="nav-cta is-loading" type="button" hidden>
+      Sign in
+      <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path
+          d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<script define:vars={{ apiUrl, appUrl }}>
+  const navConsole = document.getElementById('nav-console');
+  const navSignin = document.getElementById('nav-signin');
+  let primaryProvider = null;
+
+  function setLoading(isLoading) {
+    navConsole?.classList.toggle('is-loading', isLoading);
+    navSignin?.classList.toggle('is-loading', isLoading);
+  }
+
+  function renderAnonymous() {
+    if (navConsole) navConsole.hidden = true;
+    if (navSignin) navSignin.hidden = false;
+  }
+
+  function renderAuthenticated() {
+    if (navConsole) {
+      navConsole.hidden = false;
+      navConsole.href = appUrl;
+    }
+    if (navSignin) navSignin.hidden = true;
+  }
+
+  async function beginLogin() {
+    if (!primaryProvider) {
+      window.location.href = `${apiUrl}/v1/auth/login`;
+      return;
+    }
+    try {
+      const response = await fetch(`${apiUrl}/v1/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          providerKey: primaryProvider.key,
+          redirectTo: `${appUrl}/`,
+        }),
+      });
+      if (!response.ok) {
+        console.warn('login bootstrap failed', response.status);
+        return;
+      }
+      const payload = await response.json();
+      window.location.assign(payload.authorizationUrl);
+    } catch (error) {
+      console.warn('login bootstrap error', error);
+    }
+  }
+
+  navSignin?.addEventListener('click', beginLogin);
+
+  async function bootstrap() {
+    setLoading(true);
+    try {
+      const [providersResponse, sessionResponse] = await Promise.all([
+        fetch(`${apiUrl}/v1/auth/providers`, { credentials: 'include' }),
+        fetch(`${apiUrl}/v1/session`, { credentials: 'include' }),
+      ]);
+      const providersPayload = providersResponse.ok
+        ? await providersResponse.json()
+        : { providers: [] };
+      primaryProvider = providersPayload.providers?.[0] ?? null;
+
+      if (sessionResponse.status === 200) {
+        renderAuthenticated();
+      } else {
+        renderAnonymous();
+      }
+    } catch (error) {
+      renderAnonymous();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  bootstrap();
+</script>

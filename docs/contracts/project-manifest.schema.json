@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://porvi.dev/contracts/project-manifest.schema.json",
+  "title": "Porvi Project Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "siteId",
+    "name",
+    "slug",
+    "archetype",
+    "deployment",
+    "features",
+    "seo",
+    "theme"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "siteId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": ["link-hub", "portfolio", "creator-site"]
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subdomain", "customDomains"],
+      "properties": {
+        "subdomain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "customDomains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "basePath": {
+          "type": "string"
+        },
+        "preferredPreviewHost": {
+          "type": "string"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structuredEditing", "exportable", "aiMode", "advancedAiToggle"],
+      "properties": {
+        "structuredEditing": {
+          "type": "boolean"
+        },
+        "exportable": {
+          "type": "boolean"
+        },
+        "aiMode": {
+          "type": "string",
+          "enum": ["structured", "guided", "advanced"]
+        },
+        "advancedAiToggle": {
+          "type": "boolean"
+        },
+        "commentsEnabled": {
+          "type": "boolean"
+        },
+        "analyticsEnabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "seo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "description"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displayFont", "bodyFont", "colors"],
+      "properties": {
+        "fontEmbedUrl": {
+          "type": "string"
+        },
+        "displayFont": {
+          "type": "string"
+        },
+        "bodyFont": {
+          "type": "string"
+        },
+        "colors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "required": ["bg", "bgWarm", "surface", "text", "textMuted", "accent", "accentSoft", "border", "borderStrong"]
+        }
+      }
+    }
+  }
+}

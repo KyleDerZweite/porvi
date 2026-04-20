@@ -1,0 +1,1156 @@
+openapi: 3.1.0
+info:
+  title: Porvi Control Plane API
+  version: 0.1.0
+  summary: Contract-first API for auth, multitenancy, projects, deployments, and AI workflows.
+servers:
+  - url: https://api.example.com
+    description: Hosted API
+  - url: http://localhost:3000
+    description: Local development API
+tags:
+  - name: Auth
+  - name: Session
+  - name: Workspaces
+  - name: Projects
+  - name: Revisions
+  - name: Deployments
+  - name: Domains
+  - name: Assets
+  - name: AI Requests
+paths:
+  /v1/capabilities:
+    get:
+      tags: [Session]
+      summary: Get backend runtime capabilities.
+      operationId: getCapabilities
+      responses:
+        '200':
+          description: Runtime capabilities.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeCapabilities'
+  /v1/auth/providers:
+    get:
+      tags: [Auth]
+      summary: List enabled auth providers.
+      operationId: listAuthProviders
+      responses:
+        '200':
+          description: Enabled auth providers.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [providers]
+                properties:
+                  providers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuthProvider'
+  /v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Start an OIDC login flow.
+      operationId: startLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [providerKey]
+              properties:
+                providerKey:
+                  type: string
+                redirectTo:
+                  type: string
+                workspaceHint:
+                  type: string
+      responses:
+        '200':
+          description: Login URL.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [authorizationUrl, state]
+                properties:
+                  authorizationUrl:
+                    type: string
+                    format: uri
+                  state:
+                    type: string
+  /v1/auth/logout:
+    post:
+      tags: [Auth]
+      summary: Destroy the current Porvi session.
+      operationId: logout
+      responses:
+        '204':
+          description: Session destroyed.
+  /v1/auth/callback/{providerKey}:
+    get:
+      tags: [Auth]
+      summary: Complete the OIDC login flow and create a Porvi session.
+      operationId: handleAuthCallback
+      parameters:
+        - in: path
+          name: providerKey
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to the requested application location.
+  /v1/session:
+    get:
+      tags: [Session]
+      summary: Get current application session.
+      operationId: getSession
+      responses:
+        '200':
+          description: Current session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          description: Not authenticated.
+  /v1/me:
+    get:
+      tags: [Session]
+      summary: Get current user profile and memberships.
+      operationId: getMe
+      responses:
+        '200':
+          description: Authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeResponse'
+  /v1/workspaces:
+    get:
+      tags: [Workspaces]
+      summary: List workspaces visible to the current user.
+      operationId: listWorkspaces
+      responses:
+        '200':
+          description: Workspace list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Workspace'
+    post:
+      tags: [Workspaces]
+      summary: Create a workspace.
+      operationId: createWorkspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, slug]
+              properties:
+                name:
+                  type: string
+                slug:
+                  type: string
+                billingEmail:
+                  type: string
+                  format: email
+      responses:
+        '201':
+          description: Workspace created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+  /v1/workspaces/{workspaceId}:
+    get:
+      tags: [Workspaces]
+      summary: Get a workspace.
+      operationId: getWorkspace
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Workspace.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+  /v1/workspaces/{workspaceId}/memberships:
+    get:
+      tags: [Workspaces]
+      summary: List workspace memberships.
+      operationId: listWorkspaceMemberships
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Memberships.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WorkspaceMembership'
+    post:
+      tags: [Workspaces]
+      summary: Create or update a workspace membership.
+      operationId: upsertWorkspaceMembership
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, role]
+              properties:
+                userId:
+                  type: string
+                role:
+                  $ref: '#/components/schemas/WorkspaceRole'
+      responses:
+        '200':
+          description: Membership updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMembership'
+  /v1/projects:
+    get:
+      tags: [Projects]
+      summary: List projects.
+      operationId: listProjects
+      parameters:
+        - in: query
+          name: workspaceId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+    post:
+      tags: [Projects]
+      summary: Create a project.
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [workspaceId, name, slug, archetype]
+              properties:
+                workspaceId:
+                  type: string
+                name:
+                  type: string
+                slug:
+                  type: string
+                archetype:
+                  $ref: '#/components/schemas/Archetype'
+      responses:
+        '201':
+          description: Project created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+  /v1/projects/{projectId}:
+    get:
+      tags: [Projects]
+      summary: Get a project and its active contract payloads.
+      operationId: getProject
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Project.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [project, manifest, siteContent]
+                properties:
+                  project:
+                    $ref: '#/components/schemas/Project'
+                  manifest:
+                    $ref: '#/components/schemas/ProjectManifest'
+                  siteContent:
+                    $ref: '#/components/schemas/SiteContent'
+    patch:
+      tags: [Projects]
+      summary: Update project contract payloads.
+      operationId: updateProject
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                manifest:
+                  $ref: '#/components/schemas/ProjectManifest'
+                siteContent:
+                  $ref: '#/components/schemas/SiteContent'
+                changeSummary:
+                  type: string
+      responses:
+        '200':
+          description: Project updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [project, revision]
+                properties:
+                  project:
+                    $ref: '#/components/schemas/Project'
+                  revision:
+                    $ref: '#/components/schemas/Revision'
+  /v1/projects/{projectId}/revisions:
+    get:
+      tags: [Revisions]
+      summary: List project revisions.
+      operationId: listRevisions
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Revision list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Revision'
+  /v1/projects/{projectId}/deployments:
+    get:
+      tags: [Deployments]
+      summary: List project deployments.
+      operationId: listDeployments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Deployment list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Deployment'
+    post:
+      tags: [Deployments]
+      summary: Create a preview or production deployment.
+      operationId: createDeployment
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [revisionId, environment]
+              properties:
+                revisionId:
+                  type: string
+                environment:
+                  $ref: '#/components/schemas/DeploymentEnvironment'
+      responses:
+        '201':
+          description: Deployment queued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+  /v1/projects/{projectId}/deployments/{deploymentId}:
+    get:
+      tags: [Deployments]
+      summary: Get a deployment.
+      operationId: getDeployment
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/DeploymentId'
+      responses:
+        '200':
+          description: Deployment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+  /v1/projects/{projectId}/deployments/{deploymentId}/log:
+    get:
+      tags: [Deployments]
+      summary: Get a deployment build log.
+      operationId: getDeploymentLog
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/DeploymentId'
+      responses:
+        '200':
+          description: Build log.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /v1/projects/{projectId}/domains:
+    get:
+      tags: [Domains]
+      summary: List project domains.
+      operationId: listDomains
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Domain list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Domain'
+    post:
+      tags: [Domains]
+      summary: Attach a domain to a project.
+      operationId: createDomain
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [hostname, kind]
+              properties:
+                hostname:
+                  type: string
+                kind:
+                  $ref: '#/components/schemas/DomainKind'
+      responses:
+        '201':
+          description: Domain created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+  /v1/projects/{projectId}/domains/{domainId}:
+    get:
+      tags: [Domains]
+      summary: Get a domain.
+      operationId: getDomain
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/DomainId'
+      responses:
+        '200':
+          description: Domain.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+  /v1/projects/{projectId}/assets:
+    get:
+      tags: [Assets]
+      summary: List project assets.
+      operationId: listAssets
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Asset list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+  /v1/projects/{projectId}/ai-requests:
+    get:
+      tags: [AI Requests]
+      summary: List AI requests.
+      operationId: listAiRequests
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: AI request list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AiRequest'
+    post:
+      tags: [AI Requests]
+      summary: Create a scoped AI request.
+      operationId: createAiRequest
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, prompt, scope]
+              properties:
+                type:
+                  $ref: '#/components/schemas/AiRequestType'
+                prompt:
+                  type: string
+                scope:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/AiScope'
+                reviewRequired:
+                  type: boolean
+      responses:
+        '201':
+          description: AI request created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiRequest'
+  /v1/projects/{projectId}/ai-requests/{aiRequestId}:
+    get:
+      tags: [AI Requests]
+      summary: Get an AI request.
+      operationId: getAiRequest
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/AiRequestId'
+      responses:
+        '200':
+          description: AI request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiRequest'
+  /v1/projects/{projectId}/ai-requests/{aiRequestId}/events:
+    get:
+      tags: [AI Requests]
+      summary: Stream AI request status changes.
+      operationId: streamAiRequestEvents
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/AiRequestId'
+      responses:
+        '200':
+          description: Server-sent events stream.
+          content:
+            text/event-stream:
+              schema:
+                type: string
+components:
+  parameters:
+    WorkspaceId:
+      in: path
+      name: workspaceId
+      required: true
+      schema:
+        type: string
+    ProjectId:
+      in: path
+      name: projectId
+      required: true
+      schema:
+        type: string
+    DeploymentId:
+      in: path
+      name: deploymentId
+      required: true
+      schema:
+        type: string
+    DomainId:
+      in: path
+      name: domainId
+      required: true
+      schema:
+        type: string
+    AiRequestId:
+      in: path
+      name: aiRequestId
+      required: true
+      schema:
+        type: string
+  schemas:
+    AuthProvider:
+      type: object
+      required: [key, kind, displayName, enabled, loginHintSupported, workspaceDiscoveryMode, registrationMode]
+      properties:
+        key:
+          type: string
+        kind:
+          type: string
+          enum: [zitadel, generic-oidc]
+        displayName:
+          type: string
+        enabled:
+          type: boolean
+        loginHintSupported:
+          type: boolean
+        workspaceDiscoveryMode:
+          type: string
+          enum: [none, email_domain, provider_org, explicit_hint]
+        registrationMode:
+          type: string
+          enum: [disabled, invite_only, provider_controlled, open]
+    Session:
+      type: object
+      required:
+        - sessionId
+        - subjectId
+        - subjectType
+        - providerKey
+        - workspaceIds
+        - issuedAt
+        - expiresAt
+        - lastSeenAt
+      properties:
+        sessionId:
+          type: string
+        subjectId:
+          type: string
+        subjectType:
+          type: string
+          enum: [human, service]
+        providerKey:
+          type: string
+        providerUserId:
+          type: string
+        workspaceIds:
+          type: array
+          items:
+            type: string
+        activeWorkspaceId:
+          type: string
+        amr:
+          type: array
+          items:
+            type: string
+        issuedAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        lastSeenAt:
+          type: string
+          format: date-time
+    RuntimeCapabilities:
+      type: object
+      required:
+        - dialect
+        - supportsExternalWorker
+        - supportsEmbeddedWorker
+        - supportsProviderPersistence
+        - supportsRealBuilds
+        - supportsManagedPublish
+      properties:
+        dialect:
+          type: string
+          enum: [sqlite, postgres]
+        supportsExternalWorker:
+          type: boolean
+        supportsEmbeddedWorker:
+          type: boolean
+        supportsProviderPersistence:
+          type: boolean
+        supportsRealBuilds:
+          type: boolean
+        supportsManagedPublish:
+          type: boolean
+    MeResponse:
+      type: object
+      required: [user, identities, workspaceMemberships, projectMemberships]
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identity'
+        workspaceMemberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceMembership'
+        projectMemberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectMembership'
+    User:
+      type: object
+      required: [id, email]
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        emailVerified:
+          type: boolean
+        displayName:
+          type: string
+        preferredUsername:
+          type: string
+        pictureUrl:
+          type: string
+          format: uri
+    Identity:
+      type: object
+      required: [providerKey, providerUserId, userId]
+      properties:
+        providerKey:
+          type: string
+        providerUserId:
+          type: string
+        userId:
+          type: string
+        email:
+          type: string
+          format: email
+        claimsVersion:
+          type: integer
+    Workspace:
+      type: object
+      required: [id, slug, name, plan]
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        name:
+          type: string
+        plan:
+          type: string
+          enum: [free, pro, studio, enterprise]
+        billingEmail:
+          type: string
+          format: email
+    WorkspaceMembership:
+      type: object
+      required: [workspaceId, userId, role]
+      properties:
+        workspaceId:
+          type: string
+        userId:
+          type: string
+        role:
+          $ref: '#/components/schemas/WorkspaceRole'
+    WorkspaceRole:
+      type: string
+      enum:
+        - workspace_owner
+        - workspace_admin
+        - project_creator
+        - billing_admin
+        - member
+        - viewer
+    ProjectMembership:
+      type: object
+      required: [projectId, userId, role]
+      properties:
+        projectId:
+          type: string
+        userId:
+          type: string
+        role:
+          $ref: '#/components/schemas/ProjectRole'
+    ProjectRole:
+      type: string
+      enum:
+        - project_owner
+        - project_admin
+        - editor
+        - reviewer
+        - deployer
+        - viewer
+    Archetype:
+      type: string
+      enum: [link-hub, portfolio, creator-site]
+    Project:
+      type: object
+      required: [id, workspaceId, slug, name, archetype, hostingMode]
+      properties:
+        id:
+          type: string
+        workspaceId:
+          type: string
+        slug:
+          type: string
+        name:
+          type: string
+        archetype:
+          $ref: '#/components/schemas/Archetype'
+        visibility:
+          type: string
+          enum: [private, public]
+        hostingMode:
+          type: string
+          enum: [managed, self-host-export, hybrid]
+        currentRevisionId:
+          type: string
+        publishedDeploymentId:
+          type: string
+    ProjectManifest:
+      type: object
+      required: [version, siteId, name, slug, archetype, deployment, features, seo, theme]
+      properties:
+        version:
+          type: integer
+        siteId:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        archetype:
+          $ref: '#/components/schemas/Archetype'
+        deployment:
+          type: object
+          required: [subdomain, customDomains]
+          properties:
+            subdomain:
+              type: string
+            customDomains:
+              type: array
+              items:
+                type: string
+            basePath:
+              type: string
+            preferredPreviewHost:
+              type: string
+        features:
+          type: object
+          required: [structuredEditing, exportable, aiMode, advancedAiToggle]
+          properties:
+            structuredEditing:
+              type: boolean
+            exportable:
+              type: boolean
+            aiMode:
+              type: string
+              enum: [structured, guided, advanced]
+            advancedAiToggle:
+              type: boolean
+            commentsEnabled:
+              type: boolean
+            analyticsEnabled:
+              type: boolean
+        seo:
+          type: object
+          required: [title, description]
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+        theme:
+          type: object
+          required: [displayFont, bodyFont, colors]
+          properties:
+            fontEmbedUrl:
+              type: string
+            displayFont:
+              type: string
+            bodyFont:
+              type: string
+            colors:
+              type: object
+              additionalProperties:
+                type: string
+    SiteContent:
+      type: object
+      required: [profile, pages]
+      properties:
+        profile:
+          type: object
+          required: [name, handle, bio]
+          properties:
+            name:
+              type: string
+            handle:
+              type: string
+            bio:
+              type: string
+            avatar:
+              type: string
+            location:
+              type: string
+            availability:
+              type: string
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/SitePage'
+    SitePage:
+      type: object
+      required: [slug, title, sections]
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        navLabel:
+          type: string
+        description:
+          type: string
+        hero:
+          type: object
+          properties:
+            eyebrow:
+              type: string
+            title:
+              type: string
+            subtitle:
+              type: string
+            kicker:
+              type: string
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SiteSection'
+    SiteSection:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [text, links, featured, embeds, cta]
+        title:
+          type: string
+        body:
+          type: string
+        anchor:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        button:
+          type: object
+          properties:
+            label:
+              type: string
+            href:
+              type: string
+    Revision:
+      type: object
+      required: [id, projectId, source, status, createdAt]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        source:
+          type: string
+          enum: [manual, api, ai, import]
+        status:
+          type: string
+          enum: [draft, ready, published, reverted, failed]
+        baseRevisionId:
+          type: string
+        changeSummary:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Deployment:
+      type: object
+      required: [id, projectId, revisionId, environment, status, createdAt]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        revisionId:
+          type: string
+        environment:
+          $ref: '#/components/schemas/DeploymentEnvironment'
+        status:
+          type: string
+          enum: [queued, building, ready, failed, cancelled, superseded]
+        staticUrl:
+          type: string
+          format: uri
+        previewUrl:
+          type: string
+          format: uri
+        publishedUrl:
+          type: string
+          format: uri
+        buildLogUrl:
+          type: string
+          format: uri
+        buildArtifactPath:
+          type: string
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+    DeploymentEnvironment:
+      type: string
+      enum: [preview, production]
+    Domain:
+      type: object
+      required: [id, projectId, hostname, kind, verificationStatus, certificateStatus]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        hostname:
+          type: string
+        kind:
+          $ref: '#/components/schemas/DomainKind'
+        verificationStatus:
+          type: string
+          enum: [pending, verified, failed]
+        certificateStatus:
+          type: string
+          enum: [pending, active, failed]
+        dnsTarget:
+          type: string
+        isPrimary:
+          type: boolean
+        verificationToken:
+          type: string
+        verifiedAt:
+          type: string
+          format: date-time
+    DomainKind:
+      type: string
+      enum: [platform_subdomain, custom_domain]
+    Asset:
+      type: object
+      required: [id, projectId, kind, filename, mimeType, sizeBytes, publicUrl]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        kind:
+          type: string
+          enum: [image, video, audio, document, other]
+        filename:
+          type: string
+        mimeType:
+          type: string
+        sizeBytes:
+          type: integer
+        sha256:
+          type: string
+        storageKey:
+          type: string
+        publicUrl:
+          type: string
+          format: uri
+    AiRequest:
+      type: object
+      required: [id, projectId, type, status, prompt, scope, createdAt]
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        type:
+          $ref: '#/components/schemas/AiRequestType'
+        status:
+          $ref: '#/components/schemas/AiRequestStatus'
+        prompt:
+          type: string
+        scope:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiScope'
+        inputRevisionId:
+          type: string
+        outputRevisionId:
+          type: string
+        summary:
+          type: string
+        reviewRequired:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    AiRequestType:
+      type: string
+      enum:
+        - generate_initial_site
+        - update_structured_content
+        - restyle_theme
+        - propose_code_change
+    AiRequestStatus:
+      type: string
+      enum:
+        - draft
+        - queued
+        - running
+        - needs_review
+        - approved
+        - rejected
+        - applied
+        - failed
+        - cancelled
+    AiScope:
+      type: string
+      enum: [manifest, content, theme, code]

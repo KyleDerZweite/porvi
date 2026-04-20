@@ -1,0 +1,13 @@
+FROM docker.io/library/node:22-bookworm-slim
+
+RUN corepack enable \
+    && corepack prepare pnpm@10.29.2 --activate \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends git ca-certificates python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
+WORKDIR /workspace
+

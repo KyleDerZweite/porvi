@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://porvi.dev/contracts/auth-provider.schema.json",
+  "title": "Porvi Auth Provider Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "key",
+    "kind",
+    "display_name",
+    "registration_mode",
+    "issuer",
+    "client_id",
+    "client_secret_ref",
+    "scopes",
+    "pkce_required",
+    "claims_mapping",
+    "provisioning",
+    "role_mapping",
+    "organization_resolution",
+    "enabled"
+  ],
+  "properties": {
+    "key": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["zitadel", "generic-oidc"]
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "registration_mode": {
+      "type": "string",
+      "enum": ["disabled", "invite_only", "provider_controlled", "open"]
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri"
+    },
+    "client_id": {
+      "type": "string"
+    },
+    "client_secret_ref": {
+      "type": "string"
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pkce_required": {
+      "type": "boolean"
+    },
+    "authorization_params": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
+      }
+    },
+    "claims_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "email"],
+      "properties": {
+        "subject": { "type": "string" },
+        "email": { "type": "string" },
+        "email_verified": { "type": "string" },
+        "preferred_username": { "type": "string" },
+        "display_name": { "type": "string" },
+        "given_name": { "type": "string" },
+        "family_name": { "type": "string" },
+        "picture": { "type": "string" },
+        "locale": { "type": "string" },
+        "zoneinfo": { "type": "string" },
+        "groups": { "type": "string" },
+        "roles": { "type": "string" }
+      }
+    },
+    "provisioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "jit_user_creation",
+        "jit_workspace_membership",
+        "allow_account_linking",
+        "auto_create_personal_workspace",
+        "default_workspace_role",
+        "require_verified_email"
+      ],
+      "properties": {
+        "jit_user_creation": { "type": "boolean" },
+        "jit_workspace_membership": { "type": "boolean" },
+        "allow_account_linking": { "type": "boolean" },
+        "auto_create_personal_workspace": { "type": "boolean" },
+        "default_workspace_role": {
+          "type": "string",
+          "enum": ["workspace_owner", "workspace_admin", "project_creator", "billing_admin", "member", "viewer"]
+        },
+        "require_verified_email": { "type": "boolean" }
+      }
+    },
+    "role_mapping": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/role_mapping_rule"
+      }
+    },
+    "organization_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["none", "email_domain", "provider_org", "explicit_hint"]
+        },
+        "claim": {
+          "type": "string"
+        }
+      }
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "role_mapping_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "match", "grants", "priority"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["claim_value", "claim_contains", "claim_regex", "provider_default"]
+        },
+        "claim": {
+          "type": "string"
+        },
+        "match": {
+          "type": ["string", "array"],
+          "items": {
+            "type": "string"
+          }
+        },
+        "grants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "workspace_selector": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "project_selector": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

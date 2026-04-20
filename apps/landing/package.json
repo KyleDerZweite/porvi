@@ -1,0 +1,17 @@
+{
+  "name": "@porvi/landing",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "lint": "astro check",
+    "test": "vitest run --passWithNoTests",
+    "clean": "rm -rf dist .astro"
+  },
+  "dependencies": {
+    "astro": "^5.7.2"
+  }
+}
