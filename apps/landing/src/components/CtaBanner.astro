@@ -3,21 +3,21 @@
 
 <section id="cta" style="padding-top: 0;">
   <div class="wrap">
-    <div class="cta-banner">
+    <div class="cta-banner reveal">
       <div>
-        <h3>Keep a <em>small, good thing</em> on the internet.</h3>
+        <h3>Start a home on the web - <em>one you'll keep.</em></h3>
         <p>
-          Invites go out in small batches. Leave a note about what you'd build, and we'll be
-          in touch when there's room.
+          Porvi is in private preview. Leave your email and we'll share access
+          as slots open. One message when there's room - nothing else.
         </p>
       </div>
       <div class="cta-right">
         <form id="invite-form" class="invite-form">
-          <input type="email" required placeholder="you@domain.tld" />
-          <button type="submit" class="btn btn-primary" style="height: 46px;">Request invite</button>
+          <input type="email" required placeholder="you@domain.tld" aria-label="Email address" />
+          <button type="submit" class="btn btn-primary">Request access</button>
         </form>
-        <span style="font-family: var(--mono); font-size: 11px; color: var(--paper-mute); letter-spacing: 0.04em;">
-          One email, when a spot opens. No list.
+        <span style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em;">
+          Private preview · one email when a spot opens.
         </span>
       </div>
     </div>
@@ -29,6 +29,6 @@
   inviteForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const button = inviteForm.querySelector('button');
-    if (button) button.textContent = 'Sent ✓';
+    if (button) button.textContent = 'On the list ✓';
   });
 </script>

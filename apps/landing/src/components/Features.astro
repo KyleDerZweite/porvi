@@ -3,153 +3,191 @@
 
 <section id="features">
   <div class="wrap">
-    <div class="section-label"><span class="idx">01 -</span> The surface</div>
-    <h2 class="heading">
-      Everything a personal site needs. <em>Nothing a platform adds.</em>
-    </h2>
-    <p class="section-sub">
-      A single console for your sites, your domains, and the small pipeline between them. No
-      dashboards-within-dashboards, no seat math, no plan you age out of.
-    </p>
+    <div class="section-head reveal">
+      <div class="section-label"><span class="rn">I.</span> The platform</div>
+      <h2 class="heading">
+        A studio for the <em>site you keep coming back to</em> - not a CMS you fight with.
+      </h2>
+      <p class="section-sub">
+        Porvi gives you one console for structure, revisions, domains, and
+        deployments. It stays out of the way, and leaves a clear trail when you
+        need one.
+      </p>
+    </div>
 
-    <div class="features">
+    <div class="features reveal">
       <div class="feat span-3">
-        <div class="feat-label">Projects</div>
-        <h3>A repo per site. That's the whole model.</h3>
+        <div class="feat-label">Structure</div>
+        <h3>Content that <em>knows what it is.</em></h3>
         <p>
-          Push an Astro project. Porvi figures out the rest - builds it, versions it, keeps
-          the last ten deploys warm so you can roll back from a phone on a train.
+          Model your site once - posts, projects, essays, pages - and edit against
+          that shape in the console. Every field is typed, every change is tracked,
+          every preview is honest.
         </p>
         <div class="feat-art">
           <svg class="art-svg" viewBox="0 0 600 180" aria-hidden="true">
             <defs>
-              <linearGradient id="sheet" x1="0" x2="1">
-                <stop offset="0" stop-color="#1c1812" />
-                <stop offset="1" stop-color="#141109" />
-              </linearGradient>
-              <pattern id="stripes-a" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <rect width="8" height="8" fill="transparent" />
-                <rect width="1" height="8" fill="#2a241b" />
+              <pattern id="hatch-a" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <rect width="6" height="6" fill="transparent" />
+                <rect width="0.6" height="6" fill="#d7d0be" />
               </pattern>
             </defs>
-            <g>
-              <rect x="50" y="20" width="500" height="120" rx="8" fill="url(#sheet)" stroke="#2a241b" />
-              <rect x="50" y="20" width="500" height="120" rx="8" fill="url(#stripes-a)" opacity="0.5" />
-              <rect x="70" y="40" width="460" height="120" rx="8" fill="url(#sheet)" stroke="#2a241b" />
-              <rect x="90" y="60" width="420" height="120" rx="8" fill="#1c1812" stroke="#3a3123" />
-              <circle cx="110" cy="80" r="4" fill="#d9a066" />
-              <rect x="124" y="76" width="120" height="8" rx="2" fill="#3a3123" />
-              <rect x="124" y="92" width="220" height="4" rx="2" fill="#2a241b" />
+            <rect x="30" y="26" width="540" height="128" rx="8" fill="#ece7da" stroke="#d7d0be" />
+            <rect x="30" y="26" width="540" height="128" rx="8" fill="url(#hatch-a)" opacity="0.5" />
+
+            <!-- schema tree -->
+            <g font-family="JetBrains Mono" font-size="11" fill="#6a6357">
+              <text x="52" y="54">essay</text>
+              <text x="52" y="74" fill="#8d8675">├─ title <tspan fill="#b54828">string</tspan></text>
+              <text x="52" y="92" fill="#8d8675">├─ body <tspan fill="#b54828">mdx</tspan></text>
+              <text x="52" y="110" fill="#8d8675">├─ tags <tspan fill="#b54828">string[]</tspan></text>
+              <text x="52" y="128" fill="#8d8675">└─ published <tspan fill="#b54828">date</tspan></text>
+            </g>
+
+            <!-- rendered output preview -->
+            <g transform="translate(330 40)">
+              <rect width="220" height="110" rx="6" fill="#f3efe6" stroke="#d7d0be" />
+              <text x="16" y="34" font-family="Fraunces" font-size="18" fill="#18160f">The March Entries</text>
+              <rect x="16" y="50" width="160" height="3" fill="#d7d0be" />
+              <rect x="16" y="62" width="180" height="3" fill="#e4decd" />
+              <rect x="16" y="72" width="140" height="3" fill="#e4decd" />
+              <rect x="16" y="88" width="60" height="10" rx="5" fill="#b54828" opacity="0.16" />
+              <text x="20" y="96" font-family="JetBrains Mono" font-size="8.5" fill="#b54828">ESSAY</text>
             </g>
           </svg>
         </div>
       </div>
 
       <div class="feat span-3">
-        <div class="feat-label">Domains</div>
-        <h3>Point a record. It's already yours.</h3>
+        <div class="feat-label">Versions</div>
+        <h3>Every publish is a numbered revision.</h3>
         <p>
-          Custom domains aren't an upsell. Add a CNAME, we provision the cert, and it's live
-          under your name - not ours, not a subdomain, not "yours.ourdomain.app".
+          Nothing disappears. Each publish becomes a named revision you can diff,
+          compare, or roll back to in a single click. Drafts live alongside production
+          without stepping on it.
         </p>
         <div class="feat-art">
           <svg class="art-svg" viewBox="0 0 600 180" aria-hidden="true">
-            <line x1="20" y1="90" x2="580" y2="90" stroke="#2a241b" stroke-dasharray="3 6" />
-            <g font-family="Geist Mono, monospace" font-size="11" fill="#8a8573">
-              <rect x="30" y="66" width="150" height="48" rx="6" fill="#1c1812" stroke="#2a241b" />
-              <text x="46" y="88">your.domain</text>
-              <text x="46" y="104" fill="#6b6456">CNAME →</text>
-
-              <rect x="240" y="66" width="120" height="48" rx="6" fill="#1c1812" stroke="#d9a066" />
-              <text x="256" y="88" fill="#d9a066">porvi</text>
-              <text x="256" y="104" fill="#8a8573">edge-03</text>
-
-              <rect x="420" y="66" width="150" height="48" rx="6" fill="#1c1812" stroke="#2a241b" />
-              <text x="436" y="88" fill="#9cc08a">● issued</text>
-              <text x="436" y="104" fill="#6b6456">TLS · 90d auto</text>
+            <line x1="60" y1="90" x2="540" y2="90" stroke="#d7d0be" />
+            <g font-family="JetBrains Mono" font-size="10.5">
+              <g transform="translate(90 90)">
+                <circle r="7" fill="#f3efe6" stroke="#8d8675" />
+                <text y="28" fill="#8d8675" text-anchor="middle">v.01</text>
+              </g>
+              <g transform="translate(210 90)">
+                <circle r="7" fill="#f3efe6" stroke="#8d8675" />
+                <text y="28" fill="#8d8675" text-anchor="middle">v.02</text>
+              </g>
+              <g transform="translate(330 90)">
+                <circle r="9" fill="#b54828" stroke="#b54828" />
+                <text y="30" fill="#b54828" text-anchor="middle">v.03 · live</text>
+              </g>
+              <g transform="translate(450 90)">
+                <circle r="7" fill="#f3efe6" stroke="#d7d0be" stroke-dasharray="2 3" />
+                <text y="28" fill="#8d8675" text-anchor="middle">v.04 · draft</text>
+              </g>
+            </g>
+            <g font-family="Fraunces" font-size="11" font-style="italic" fill="#6a6357">
+              <text x="74" y="58">spring opens</text>
+              <text x="196" y="58">contributors</text>
+              <text x="312" y="58">new masthead</text>
+              <text x="434" y="58">next issue</text>
             </g>
           </svg>
         </div>
       </div>
 
       <div class="feat span-2">
-        <div class="feat-label">Previews</div>
-        <h3>Every branch is a URL.</h3>
-        <p>Share unfinished thoughts without publishing them. Preview URLs expire, or don't. You decide.</p>
+        <div class="feat-label">Domains</div>
+        <h3>Your domain, not a subpath.</h3>
+        <p>
+          Point a CNAME or A record. Porvi provisions the certificate, handles the
+          edge, and serves your site from your own name.
+        </p>
         <div class="feat-art">
           <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
-            <rect x="10" y="20" width="300" height="100" rx="8" fill="#1c1812" stroke="#2a241b" />
-            <circle cx="28" cy="38" r="4" fill="#3a3123" />
-            <circle cx="42" cy="38" r="4" fill="#3a3123" />
-            <circle cx="56" cy="38" r="4" fill="#3a3123" />
-            <rect x="80" y="30" width="210" height="16" rx="4" fill="#141109" />
-            <text x="88" y="42" font-family="Geist Mono" font-size="10" fill="#8a8573">preview-draft-8f2.porvi.site</text>
-            <rect x="30" y="64" width="120" height="8" rx="2" fill="#3a3123" />
-            <rect x="30" y="80" width="240" height="4" rx="2" fill="#2a241b" />
-            <rect x="30" y="90" width="200" height="4" rx="2" fill="#2a241b" />
-            <rect x="30" y="100" width="160" height="4" rx="2" fill="#2a241b" />
+            <g font-family="JetBrains Mono" font-size="10.5" fill="#6a6357">
+              <rect x="14" y="28" width="130" height="32" rx="4" fill="#f3efe6" stroke="#d7d0be" />
+              <text x="26" y="48" fill="#18160f">your.domain</text>
+
+              <rect x="174" y="28" width="130" height="32" rx="4" fill="#f3efe6" stroke="#b54828" />
+              <text x="186" y="48" fill="#b54828">porvi edge</text>
+
+              <path d="M144 44 h30" stroke="#8d8675" stroke-dasharray="2 3" />
+
+              <rect x="14" y="82" width="290" height="36" rx="4" fill="#ece7da" stroke="#d7d0be" />
+              <text x="28" y="105" fill="#4a7a4e">● certificate issued · 90-day auto-renew</text>
+            </g>
           </svg>
         </div>
       </div>
 
       <div class="feat span-2">
         <div class="feat-label">Deploys</div>
-        <h3>Push. Watch. Done.</h3>
+        <h3>Publish. Watch. Live.</h3>
         <p>
-          The build log is plain text. The status is a single word. You know where your site
-          stands in one glance.
+          A plain build log and a single live status. Porvi ships a static bundle
+          under your domain in seconds - nothing dramatic, nothing to configure.
         </p>
         <div class="feat-art">
           <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
-            <g font-family="Geist Mono" font-size="10.5" fill="#8a8573">
-              <text x="16" y="34">  cloning repo…</text>
-              <text x="16" y="52" fill="#c9bfa9">  running build</text>
-              <text x="16" y="70" fill="#9cc08a">✓ deploy · 11.8s</text>
-              <text x="16" y="96" fill="#6b6456">-------------</text>
-              <text x="16" y="114" fill="#d9a066">▲ live at your.domain</text>
+            <rect x="14" y="14" width="292" height="112" rx="8" fill="#ece7da" stroke="#d7d0be" />
+            <g font-family="JetBrains Mono" font-size="10.5">
+              <text x="30" y="42" fill="#8d8675">▸ render · 238 routes</text>
+              <text x="30" y="60" fill="#8d8675">▸ hash · 3a9f · 41 files new</text>
+              <text x="30" y="78" fill="#4a7a4e">✓ build · 11.8s</text>
+              <text x="30" y="104" fill="#b54828">● live · your.domain</text>
             </g>
           </svg>
         </div>
       </div>
 
       <div class="feat span-2">
-        <div class="feat-label">Identity</div>
+        <div class="feat-label">Console</div>
         <h3>One session, every site.</h3>
         <p>
-          Sign in once. Your author identity follows across every site you own or contribute
-          to - no per-project accounts.
+          Sign in once. Your author identity follows every site you own or
+          contribute to - no per-project accounts, no seat math.
         </p>
         <div class="feat-art">
           <svg class="art-svg" viewBox="0 0 320 140" aria-hidden="true">
-            <circle cx="160" cy="70" r="22" fill="#1c1812" stroke="#d9a066" />
-            <circle cx="160" cy="70" r="6" fill="#d9a066" />
-            <g stroke="#2a241b" stroke-dasharray="2 4">
-              <line x1="60" y1="40" x2="140" y2="60" />
-              <line x1="260" y1="40" x2="180" y2="60" />
-              <line x1="60" y1="100" x2="140" y2="80" />
-              <line x1="260" y1="100" x2="180" y2="80" />
+            <g transform="translate(160 70)">
+              <circle r="26" fill="#f3efe6" stroke="#b54828" />
+              <text y="6" text-anchor="middle" font-family="Fraunces" font-style="italic" font-size="22" fill="#b54828">o</text>
             </g>
-            <g fill="#141109" stroke="#2a241b">
-              <rect x="30" y="24" width="60" height="32" rx="4" />
-              <rect x="230" y="24" width="60" height="32" rx="4" />
-              <rect x="30" y="84" width="60" height="32" rx="4" />
-              <rect x="230" y="84" width="60" height="32" rx="4" />
+            <g stroke="#d7d0be" stroke-dasharray="2 3" fill="none">
+              <line x1="70" y1="40" x2="140" y2="60" />
+              <line x1="250" y1="40" x2="180" y2="60" />
+              <line x1="70" y1="100" x2="140" y2="80" />
+              <line x1="250" y1="100" x2="180" y2="80" />
+            </g>
+            <g fill="#f3efe6" stroke="#d7d0be">
+              <rect x="36" y="22" width="60" height="30" rx="4" />
+              <rect x="224" y="22" width="60" height="30" rx="4" />
+              <rect x="36" y="88" width="60" height="30" rx="4" />
+              <rect x="224" y="88" width="60" height="30" rx="4" />
+            </g>
+            <g font-family="JetBrains Mono" font-size="9" fill="#8d8675">
+              <text x="46" y="41">almanac</text>
+              <text x="234" y="41">studio</text>
+              <text x="50" y="107">journal</text>
+              <text x="238" y="107">folio</text>
             </g>
           </svg>
         </div>
       </div>
 
-      <div class="feat span-6" style="min-height:auto; padding: 28px 32px;">
+      <div class="feat span-6" style="min-height:auto; padding: 26px 32px;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap: 24px; flex-wrap: wrap;">
-          <div style="display:flex; gap:32px; align-items:center; color: var(--paper-dim); font-size: 14px;">
-            <span style="font-family: var(--mono); font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: var(--paper-mute);">Also included</span>
-            <span>Edge caching</span>
+          <div style="display:flex; gap:28px; align-items:center; color: var(--ink-2); font-size: 14px; flex-wrap: wrap;">
+            <span style="font-family: var(--mono); font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: var(--ink-mute);">Also included</span>
+            <span>Preview branches</span>
+            <span>Markdown &amp; MDX</span>
             <span>Form endpoints</span>
-            <span>Markdown → RSS</span>
             <span>Access control</span>
-            <span>Analytics (honest)</span>
+            <span>Honest analytics</span>
           </div>
-          <a href="https://github.com/KyleDerZweite/porvi/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="font-size: 13px; color: var(--ember); font-family: var(--mono); letter-spacing: 0.04em;">Full changelog →</a>
+          <a href="#how" style="font-size: 13px; color: var(--clay); font-family: var(--mono); letter-spacing: 0.04em;">See the flow →</a>
         </div>
       </div>
     </div>

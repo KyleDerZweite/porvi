@@ -2,7 +2,7 @@
 
 This file preserves the dated tenant-specific probe information that used to live in `docs/ZITADEL_SETUP.md`.
 
-It is not the canonical setup guide. Use [../ZITADEL_SETUP.md](../ZITADEL_SETUP.md) for the reusable Grimoire setup contract.
+It is not the canonical setup guide. Use [../ZITADEL_SETUP.md](../ZITADEL_SETUP.md) for the reusable Porvi setup contract.
 
 ## Probed State
 
@@ -19,17 +19,17 @@ The issuer probed on `2026-04-04` was:
 - End session: `https://auth.kylehub.dev/oidc/v1/end_session`
 - JWKS: `https://auth.kylehub.dev/oauth/v2/keys`
 
-### Grimoire OIDC App
+### Porvi OIDC App
 
 Observed app/client details:
 
-- Grimoire OIDC client id: `367086772372373509`
-- Token auth method for Grimoire config: `none`
+- Porvi OIDC client id: `367086772372373509`
+- Token auth method for the Porvi config: `none`
 - PKCE: `S256`
 
 Interpretation at the time:
 
-- treat the Grimoire web app as a public PKCE client
+- treat the Porvi web app as a public PKCE client
 - `registration_mode=invite_only`
 - frontend should default to `Sign In`, not open signup
 
@@ -49,7 +49,7 @@ Verified:
 Project state readable with the then-current permission set:
 
 - Project id: `367086328984109061`
-- Name: `grimoire`
+- Name: `porvi`
 - State: `PROJECT_STATE_ACTIVE`
 - Project role assertion: `true`
 - Project role check: `true`
@@ -73,17 +73,17 @@ Observed token-shape notes:
 
 - the minted access token worked against the management API when the
   `urn:zitadel:iam:org:project:id:zitadel:aud` audience was requested
-- the machine user appeared to have visibility to the specific Grimoire project record
+- the machine user appeared to have visibility to the specific Porvi project record
 - broader org-level and user-level inspection remained partial or unavailable
 
-## Grimoire-Side Files Referenced At The Time
+## Porvi-Side Files Referenced At The Time
 
 - Provider bootstrap config:
-  [configs/providers/zitadel.kylehub.json](/home/kyle/CodingProjects/grimoire/configs/providers/zitadel.kylehub.json)
+  [configs/providers/zitadel.kylehub.json](/home/kyle/CodingProjects/porvi/configs/providers/zitadel.kylehub.json)
 - Example env values:
-  [.env.example](/home/kyle/CodingProjects/grimoire/.env.example)
+  [.env.example](/home/kyle/CodingProjects/porvi/.env.example)
 - Local env:
-  [.env](/home/kyle/CodingProjects/grimoire/.env)
+  [.env](/home/kyle/CodingProjects/porvi/.env)
 
 ## Frontend Flow Contract Snapshot
 
@@ -93,8 +93,8 @@ The flow captured at the time was:
 2. frontend calls `POST /v1/auth/login` with `providerKey=zitadel`
 3. frontend redirects the browser to the returned `authorizationUrl`
 4. user signs in on the ZITADEL login UI
-5. ZITADEL redirects back to the Grimoire callback
-6. Grimoire sets the HTTP-only session cookie and redirects to the dashboard
+5. ZITADEL redirects back to the Porvi callback
+6. Porvi sets the HTTP-only session cookie and redirects to the dashboard
 
 Marketing-site expectation at the time:
 
@@ -121,7 +121,7 @@ curl -sS -H 'content-type: application/x-www-form-urlencoded' \
 
 ```bash
 TOKEN=$(curl -fsS \
-  -u "api-playground:${GRIMOIRE_ZITADEL_SERVICE_USER_CLIENT_SECRET}" \
+  -u "api-playground:${PORVI_ZITADEL_SERVICE_USER_CLIENT_SECRET}" \
   -H 'content-type: application/x-www-form-urlencoded' \
   -d 'grant_type=client_credentials' \
   --data-urlencode 'scope=openid profile email urn:zitadel:iam:org:project:id:zitadel:aud' \

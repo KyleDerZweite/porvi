@@ -55,21 +55,21 @@ export function createZitadelProviderPreset({
     role_mapping: [
       {
         source: 'claim_contains',
-        claim: 'grimoire_roles',
+        claim: 'urn:zitadel:iam:org:project:roles',
         match: 'workspace_owner',
         grants: ['workspace_owner'],
         priority: 100,
       },
       {
         source: 'claim_contains',
-        claim: 'grimoire_roles',
+        claim: 'urn:zitadel:iam:org:project:roles',
         match: 'workspace_admin',
         grants: ['workspace_admin'],
         priority: 90,
       },
       {
         source: 'claim_contains',
-        claim: 'grimoire_roles',
+        claim: 'urn:zitadel:iam:org:project:roles',
         match: 'project_creator',
         grants: ['project_creator'],
         priority: 80,

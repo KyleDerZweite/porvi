@@ -5,26 +5,22 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#" style="font-size: 20px;">
-          <svg class="sigil" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <circle cx="11" cy="11" r="9.5" stroke="#d9a066" stroke-width="1" />
-            <path d="M4 11h14M11 4v14" stroke="#d9a066" stroke-width="1" />
-            <circle cx="11" cy="11" r="2.4" fill="#d9a066" />
-          </svg>
-          Porvi
+        <a class="brand" href="#" style="font-size: 22px;" aria-label="Porvi - home">
+          <span aria-hidden="true" class="mark"></span>
+          <span>P<span class="o">o</span>rvi</span>
         </a>
         <p>
-          A quiet place to keep your little corners of the web. Built by two friends, for a
-          few more.
+          A versioned home on the web - structured editing, clean revisions,
+          portable static output, your own domain.
         </p>
       </div>
       <div>
-        <h5>Product</h5>
+        <h5>Platform</h5>
         <ul>
           <li><a href="#features">Features</a></li>
+          <li><a href="#how">How it works</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#showcase">Sites</a></li>
-          <li><a href="#">Changelog</a></li>
         </ul>
       </div>
       <div>
@@ -32,7 +28,7 @@
         <ul>
           <li><a href="#">Docs</a></li>
           <li><a href="#">Guides</a></li>
-          <li><a href="#">Astro primer</a></li>
+          <li><a href="#">Changelog</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -42,13 +38,20 @@
           <li><a href="#">Status</a></li>
           <li><a href="#">GitHub</a></li>
           <li><a href="#">Mastodon</a></li>
-          <li><a href="#">Email us</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </div>
     </div>
+
+    <div class="foot-wordmark" aria-hidden="true">P<em>o</em>rvi.</div>
+
     <div class="foot-bottom">
-      <span>© 2026 · Porvi · Made in small batches.</span>
-      <span id="foot-version">v1.0.0</span>
+      <span>© 2026 · Porvi · Private preview</span>
+      <a class="foot-eco" href="https://kylehub.dev" target="_blank" rel="noopener">
+        <span class="foot-eco-dot" aria-hidden="true"></span>
+        Part of the <span class="foot-eco-name">kylehub</span> ecosystem
+      </a>
+      <span id="foot-version">v1.0.0 · built on Astro</span>
     </div>
   </div>
 </footer>

@@ -1,67 +1,99 @@
 ---
 ---
 
-<section id="how" style="background: linear-gradient(180deg, transparent, rgba(244,237,224,0.015), transparent);">
+<section id="how">
   <div class="wrap">
-    <div class="section-label"><span class="idx">02 -</span> The ritual</div>
-    <h2 class="heading">From <em>git push</em> to a page your grandmother can read.</h2>
-    <p class="section-sub">
-      The whole pipeline, plain. No CI to configure, no yaml to bless. You focus on writing;
-      Porvi handles the choreography.
-    </p>
+    <div class="section-head reveal">
+      <div class="section-label"><span class="rn">II.</span> The flow</div>
+      <h2 class="heading">
+        From structured edit to <em>static output</em> - without ceremony.
+      </h2>
+      <p class="section-sub">
+        Write in the Porvi console (or in your own repo). Publish as a numbered
+        revision. Porvi builds, versions, and serves a static bundle under your
+        domain. That is the whole pipeline.
+      </p>
+    </div>
 
     <div class="flow">
-      <div class="term">
-        <div class="term-head">
-          <div class="term-dots"><span></span><span></span><span></span></div>
-          <div class="term-title">~/projects/almanac-site</div>
+      <div class="editor reveal">
+        <div class="editor-head">
+          <div class="editor-tabs">
+            <span class="tab">Overview</span>
+            <span class="tab active">Edit</span>
+            <span class="tab">Revisions</span>
+            <span class="tab">Deploy</span>
+          </div>
+          <div class="editor-meta"><span class="v">v.03</span>almanac.noctua.co</div>
         </div>
-        <div class="term-body">
-          <span class="line"><span class="mute"># link a new site</span></span>
-          <span class="line"><span class="prompt">$</span>porvi link <span class="mute">almanac.noctua.co</span></span>
-          <span class="line mute">  · detected astro@4.8 · node 20</span>
-          <span class="line mute">  · repo → gh:noctua/almanac</span>
-          <span class="line good">  ✓ site linked</span>
-          <span class="blank"></span>
-          <span class="line"><span class="prompt">$</span>git push</span>
-          <span class="line mute">  · build 3a9f - 11.8s</span>
-          <span class="line mute">  · cache · 47 files warm</span>
-          <span class="line good">  ✓ live &nbsp;<span class="mute">→</span> almanac.noctua.co</span>
-          <span class="blank"></span>
-          <span class="line mute"># preview a branch</span>
-          <span class="line"><span class="prompt">$</span>porvi preview <span class="mute">feature/spring-issue</span></span>
-          <span class="line good">  ✓ preview-spring-8f2.porvi.site</span>
+        <div class="editor-body">
+          <div class="editor-side">
+            <div class="schema-label">Schema</div>
+            <ul>
+              <li><span class="t">§</span> pages</li>
+              <li class="active"><span class="t">¶</span> essays</li>
+              <li><span class="t">◇</span> projects</li>
+              <li><span class="t">☉</span> contributors</li>
+              <li><span class="t">◈</span> masthead</li>
+            </ul>
+          </div>
+          <div class="editor-main">
+            <div class="editor-field">
+              <label>Title</label>
+              <div class="val focus">A quiet <em>almanac</em> for the spring.</div>
+            </div>
+            <div class="editor-field">
+              <label>Dek</label>
+              <div class="txt">
+                Notes on light, weather, and the small rituals of making things again
+                after the dark months. Typeset in Fraunces.
+              </div>
+            </div>
+            <div class="editor-field">
+              <label>Tags</label>
+              <div class="txt" style="font-family: var(--mono); font-size: 12px; color: var(--ink-mute);">
+                essay · seasonal · editorial
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="editor-foot">
+          <span>draft saved · 2s ago</span>
+          <span class="publish">Publish as v.04</span>
         </div>
       </div>
 
-      <div class="steps">
+      <div class="steps reveal d1">
         <div class="step">
-          <div class="n">01</div>
+          <div class="n">i</div>
           <div>
-            <h4>Bring the project</h4>
+            <h4>Author with structure</h4>
             <p>
-              Any Astro repo works - public, private, fresh, or decades old. Porvi respects
-              what you already have.
+              Write against a typed content model. Fields, collections, and links
+              stay consistent across every page your site renders - in the
+              console, or straight from your editor.
             </p>
           </div>
         </div>
         <div class="step">
-          <div class="n">02</div>
+          <div class="n">ii</div>
           <div>
-            <h4>Claim the domain</h4>
+            <h4>Publish as a revision</h4>
             <p>
-              Add a record. We handle the cert, the edge routing, and the invisible boring
-              parts. You see "live" when it's live.
+              Each publish is a numbered revision in a readable history. Review,
+              compare against the live version, or roll back - the record stays
+              with the site, not in a terminal scrollback.
             </p>
           </div>
         </div>
         <div class="step">
-          <div class="n">03</div>
+          <div class="n">iii</div>
           <div>
-            <h4>Keep writing</h4>
+            <h4>Serve on your domain</h4>
             <p>
-              Every push is a deploy. Every branch is a preview. Every rollback is one
-              command. That's it - that's the product.
+              Porvi renders static output, provisions certs, and serves it on
+              your own domain from the edge. The artifact is a portable static
+              bundle - if you ever leave, it comes with you.
             </p>
           </div>
         </div>

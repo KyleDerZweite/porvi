@@ -5,9 +5,9 @@
 
 ## Context
 
-The active platform repository moved from the legacy `Grimoire` identity to the
-`Porvi` identity, but the codebase, docs, package scopes, and runtime defaults
-still used the old name in many places.
+The active platform repository moved from a legacy identity to the `Porvi`
+identity, but the codebase, docs, package scopes, and runtime defaults still
+used the old name in many places.
 
 That left the repo with conflicting public identity and stale operational
 strings.
@@ -24,6 +24,6 @@ Adopt `Porvi` as the canonical repository and platform identity.
 ## Consequences
 
 - the rename is a clean break rather than a compatibility alias layer
-- future docs and code should treat `Grimoire` only as historical context
+- future docs and code should use `Porvi` consistently and avoid legacy naming
 - any remaining legacy references should be removed or explicitly marked as
   historical

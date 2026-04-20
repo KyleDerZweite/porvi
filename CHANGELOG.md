@@ -3,7 +3,7 @@
 All notable changes to Porvi are recorded here. Historical entries may still
 refer to `Grimoire` where they describe the pre-rebrand codebase. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project does
-not yet follow semantic versioning — entries are grouped by date until a tagged
+not yet follow semantic versioning - entries are grouped by date until a tagged
 release exists.
 
 ## [Unreleased]
