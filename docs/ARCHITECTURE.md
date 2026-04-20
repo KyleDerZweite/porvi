@@ -133,12 +133,29 @@ The implemented flow is:
 5. The build service writes a preview or production static artifact.
 6. Production publish promotes the artifact to the project's current published
    path.
-7. If host-map syncing is configured, the worker regenerates the ingress map
-   from verified published domains.
+7. If host-map syncing is configured, the worker regenerates the internal
+   origin host map from verified published domains.
 
 Preview deployments currently point back into the app/console flow for
 inspection. Production deployments optionally resolve a published URL from the
 project's primary verified domain.
+
+## Accepted Deployment Direction
+
+The accepted next deployment boundary is documented in
+[docs/DEPLOYMENT.md](./DEPLOYMENT.md) and
+[ADR 0007](./adr/0007-external-repo-builds-with-origin-and-pangolin-edge.md).
+
+That target model keeps the deployment stack light:
+
+- fetch site source from an external repository
+- build in an isolated ephemeral workspace
+- publish static artifacts to a stable origin path
+- serve production artifacts from an internal nginx origin
+- use Pangolin as the public edge for verified production domains
+
+This direction is accepted, but not yet implemented end to end in the current
+runtime.
 
 ## Artifact Storage
 
@@ -172,6 +189,10 @@ Important current variables include:
 - `PLATFORM_PUBLISH_ROOT`
 - `PLATFORM_PREVIEW_ROOT`
 - `PLATFORM_NGINX_MAP_PATH`
+
+Additional deployment-scaffold variables are documented in `.env.example` and
+`docs/DEPLOYMENT.md`, but are not consumed end to end by the current runtime
+yet.
 
 ## Near-Term Evolution
 

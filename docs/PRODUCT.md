@@ -36,6 +36,9 @@ Porvi owns the platform around that artifact:
 - AI requests and job execution
 - the structured-project contract consumed by site repositories
 
+Published sites are expected to be built from external site repositories and
+served as static artifacts through lightweight origin and edge infrastructure.
+
 ## Current Repo Boundary
 
 This repository does **not** host site workspaces under `sites/*`.

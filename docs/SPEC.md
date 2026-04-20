@@ -174,11 +174,14 @@ The deployment flow is:
 
 1. a revision exists for a project
 2. the API creates a deployment record and enqueues a deployment job
-3. the worker resolves the normalized revision contract payload
-4. the build service materializes revision files under `.porvi/runtime`
+3. the worker resolves the normalized revision contract payload and may fetch an
+   external site repository for the build
+4. the build stage materializes contract inputs in an isolated workspace
 5. the build service writes a static artifact to the preview or publish root
 6. production publish promotes the artifact to the project’s current published
    path
+7. routing state may be synchronized from verified published domains to the
+   chosen edge stack
 
 The implementation may evolve, but the contract boundary remains:
 

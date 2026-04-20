@@ -36,6 +36,8 @@ contract used by external site repositories.
 - [docs/SPEC.md](docs/SPEC.md) is the canonical behavioral contract document.
 - [docs/PRODUCT.md](docs/PRODUCT.md) is the canonical product narrative.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) describes the current runtime.
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) records the accepted external-repo
+  build plus origin-and-edge deployment model.
 - [docs/VISION.md](docs/VISION.md) captures durable principles.
 - [docs/ZITADEL_SETUP.md](docs/ZITADEL_SETUP.md) is the generic Zitadel setup guide.
 

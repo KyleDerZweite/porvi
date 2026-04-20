@@ -1,0 +1,13 @@
+# Template scaffold only.
+# Porvi should eventually generate one resource per verified production domain.
+
+public-resources:
+  example-published-site:
+    name: Example Porvi published site
+    protocol: http
+    full-domain: example.com
+    targets:
+      - site: __PANGOLIN_SITE_SLUG__
+        hostname: __PORVI_ORIGIN_HOSTNAME__
+        method: http
+        port: 8080
