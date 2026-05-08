@@ -6,6 +6,7 @@
       "outputs": ["dist/**", ".astro/**"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

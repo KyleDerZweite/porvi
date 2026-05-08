@@ -6,21 +6,23 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --exclude 'dist/**'",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "better-sqlite3": "^11.10.0",
-    "drizzle-orm": "^0.44.2",
-    "pg": "^8.15.6"
+    "better-sqlite3": "^12.9.0",
+    "drizzle-orm": "^0.45.2",
+    "pg": "^8.20.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/pg": "^8.15.2"
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/pg": "^8.20.0"
   }
 }

@@ -1,71 +1,29 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <section id="faq">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="section-label"><span class="rn">V.</span> Honest answers</div>
-      <h2 class="heading">Questions, in the order people ask them.</h2>
+      <div class="section-label">
+        <span class="section-label__num">{t.faq.label.num}</span>
+        <span class="section-label__sep">/</span>
+        <span class="section-label__text">{t.faq.label.text}</span>
+      </div>
+      <h2 class="heading">{t.faq.heading}</h2>
     </div>
 
     <div class="faq reveal">
-      <details class="qa" open>
-        <summary>What is Porvi, exactly? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          Porvi is a creator-site platform. You author with structured content in
-          a real console (or from your own repo), each publish becomes a numbered
-          revision in a readable history, and your site is served as static
-          output on your own domain. The artifact is portable - if you ever
-          leave, it comes with you.
-        </div>
-      </details>
-
-      <details class="qa">
-        <summary>Is this just a static site generator with a CMS bolted on? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          Not quite. Porvi manages the full loop - structured content, revisions,
-          deploys, and domains - with static output as the artifact. It is the
-          platform around the bundle, not just the thing that produces it.
-        </div>
-      </details>
-
-      <details class="qa">
-        <summary>Can I use my own repository? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          Yes. External site repositories are the normal model. Porvi can read
-          from your repo (public or private) and publish from there, or you can
-          author directly in the console. The two work against the same content
-          model.
-        </div>
-      </details>
-
-      <details class="qa">
-        <summary>What about custom domains - any catch? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          None. Point a CNAME (or an A record for apex) and Porvi provisions the
-          certificate. Your domain stays yours; production never routes through
-          a subdomain of ours.
-        </div>
-      </details>
-
-      <details class="qa">
-        <summary>How do versions and rollbacks work? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          Every publish is a numbered revision - v.01, v.02, v.03 - kept with the
-          site itself. You can compare revisions, inspect what changed, and
-          roll back to any previous one with a single action. The live site is
-          always one of those numbered revisions.
-        </div>
-      </details>
-
-      <details class="qa">
-        <summary>Can I leave with my data? <span class="plus" aria-hidden="true">+</span></summary>
-        <div class="answer">
-          Anytime. Structured content is exportable. Deploys are static bundles
-          you can mirror anywhere. Your repo and your domain stay with you.
-          Porvi is the glue, not the landlord.
-        </div>
-      </details>
+      {t.faq.items.map((item, i) => (
+        <details class="qa" open={i === 0}>
+          <summary>{item.q} <span class="plus" aria-hidden="true">+</span></summary>
+          <div class="answer">{item.a}</div>
+        </details>
+      ))}
     </div>
   </div>
 </section>

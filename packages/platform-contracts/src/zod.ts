@@ -25,8 +25,8 @@ export const authProviderConfigSchema = z.object({
   client_secret_ref: z.string().min(1),
   scopes: z.array(z.string().min(1)).min(1),
   pkce_required: z.boolean(),
-  authorization_params: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
-  claims_mapping: z.record(z.string()),
+  authorization_params: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
+  claims_mapping: z.record(z.string(), z.string()),
   provisioning: z.object({
     jit_user_creation: z.boolean(),
     jit_workspace_membership: z.boolean(),
@@ -41,8 +41,8 @@ export const authProviderConfigSchema = z.object({
       claim: z.string().optional(),
       match: z.union([z.string(), z.array(z.string())]),
       grants: z.array(z.union([z.enum(workspaceRoles), z.enum(projectRoles)])).min(1),
-      workspace_selector: z.record(z.unknown()).optional(),
-      project_selector: z.record(z.unknown()).optional(),
+      workspace_selector: z.record(z.string(), z.unknown()).optional(),
+      project_selector: z.record(z.string(), z.unknown()).optional(),
       priority: z.number().int().nonnegative(),
     })
   ),
@@ -117,8 +117,8 @@ export const createProjectInputSchema = z.object({
 });
 
 export const updateProjectInputSchema = z.object({
-  manifest: z.record(z.unknown()).optional(),
-  siteContent: z.record(z.unknown()).optional(),
+  manifest: z.record(z.string(), z.unknown()).optional(),
+  siteContent: z.record(z.string(), z.unknown()).optional(),
   changeSummary: z.string().optional(),
 });
 

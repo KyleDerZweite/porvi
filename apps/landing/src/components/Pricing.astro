@@ -1,68 +1,50 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <section id="pricing">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="section-label"><span class="rn">IV.</span> Plans</div>
-      <h2 class="heading">Direct, like the <em>rest of it.</em></h2>
-      <p class="section-sub">
-        Plans scale with the shape of the work - a personal site, a studio, a
-        small editorial group. No seat math, no hidden tiers, no trials that
-        expire mid-sentence.
-      </p>
+      <div class="section-label">
+        <span class="section-label__num">{t.pricing.label.num}</span>
+        <span class="section-label__sep">/</span>
+        <span class="section-label__text">{t.pricing.label.text}</span>
+      </div>
+      <h2 class="heading">
+        {t.pricing.heading.before}<em>{t.pricing.heading.em}</em>
+      </h2>
+      <p class="section-sub">{t.pricing.sub}</p>
     </div>
 
     <div class="pricing reveal">
       <div class="plan">
-        <div class="plan-name">Personal</div>
-        <div class="price">Free<small>during preview</small></div>
-        <p class="plan-desc">
-          For one person and a couple of sites. Everything you need to keep a
-          small home on the web.
-        </p>
+        <div class="plan-name">{t.pricing.personal.name}</div>
+        <div class="price">
+          <span>{lang === 'de' ? 'Frei' : 'Free'}</span>
+          <small>{t.pricing.duringPreview}</small>
+        </div>
+        <p class="plan-desc">{t.pricing.personal.desc}</p>
         <ul>
-          <li>Up to 2 sites</li>
-          <li>Custom domains, certs included</li>
-          <li>Versioned publishing</li>
-          <li>30-day revision history</li>
-          <li>Console &amp; repo authoring</li>
+          {t.pricing.personal.items.map((item) => <li>{item}</li>)}
         </ul>
-        <a class="plan-cta" href="#cta">Request access</a>
+        <a class="plan-cta" href="#cta">{t.pricing.personal.cta}</a>
       </div>
 
       <div class="plan featured">
-        <div class="plan-name">Studio</div>
-        <div class="price">$6<small>/ month</small></div>
-        <p class="plan-desc">
-          For the prolific - essays, a journal, a portfolio, or three. Private
-          repos, longer history, quiet analytics.
-        </p>
+        <div class="plan-name">{t.pricing.studio.name}</div>
+        <div class="price">
+          <span>{lang === 'de' ? 'Individuell' : 'Custom'}</span>
+          <small>{t.pricing.perMonth}</small>
+        </div>
+        <p class="plan-desc">{t.pricing.studio.desc}</p>
         <ul>
-          <li>Unlimited sites</li>
-          <li>Private repositories</li>
-          <li>90-day revision history</li>
-          <li>Preview-branch access control</li>
-          <li>Honest, server-side analytics</li>
+          {t.pricing.studio.items.map((item) => <li>{item}</li>)}
         </ul>
-        <a class="plan-cta" href="#cta">Start the studio</a>
-      </div>
-
-      <div class="plan">
-        <div class="plan-name">Collective</div>
-        <div class="price">$18<small>/ month</small></div>
-        <p class="plan-desc">
-          For a small group publishing together. Shared authorship, grouped
-          domains, one bill.
-        </p>
-        <ul>
-          <li>Up to 8 members</li>
-          <li>Shared identity &amp; authorship</li>
-          <li>Role-based access control</li>
-          <li>Domain groups</li>
-          <li>Priority build lane</li>
-        </ul>
-        <a class="plan-cta" href="#cta">Gather the group</a>
+        <a class="plan-cta" href="#cta">{t.pricing.studio.cta}</a>
       </div>
     </div>
   </div>

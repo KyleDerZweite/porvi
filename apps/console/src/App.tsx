@@ -97,14 +97,22 @@ function createDefaultPage(index: number) {
   };
 }
 
-function normalizeDraft(contract: ProjectContract) {
+type DraftPage = ReturnType<typeof createDefaultPage>;
+
+interface ContractDraft {
+  manifest: Record<string, any>;
+  siteContent: Record<string, any>;
+  pages: DraftPage[];
+}
+
+function normalizeDraft(contract: ProjectContract): ContractDraft {
   const manifest = cloneDraft(contract.manifest);
   const siteContent = cloneDraft(contract.siteContent);
 
   return {
     manifest,
     siteContent,
-    pages: (siteContent.pages ?? []).map((page: Record<string, any>) => ({
+    pages: (siteContent.pages ?? []).map((page: Record<string, any>): DraftPage => ({
       slug: page.slug ?? '',
       title: page.title ?? '',
       navLabel: page.navLabel ?? '',
@@ -128,11 +136,11 @@ function normalizeDraft(contract: ProjectContract) {
   };
 }
 
-function buildContractPayload(draft: ReturnType<typeof normalizeDraft>) {
+function buildContractPayload(draft: ContractDraft) {
   const manifest = cloneDraft(draft.manifest);
   const siteContent = cloneDraft(draft.siteContent);
 
-  siteContent.pages = draft.pages.map((page) => ({
+  siteContent.pages = draft.pages.map((page: DraftPage) => ({
     slug: page.slug,
     title: page.title,
     navLabel: page.navLabel || undefined,
@@ -1014,7 +1022,9 @@ function AuthenticatedDashboard(props: {
                                 current
                                   ? {
                                       ...current,
-                                      pages: current.pages.filter((_, pageIndex) => pageIndex !== index),
+                                      pages: current.pages.filter(
+                                        (_page: DraftPage, pageIndex: number) => pageIndex !== index
+                                      ),
                                     }
                                   : current
                               )

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import Hero from '../../components/Hero.astro';
+import Features from '../../components/Features.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import Showcase from '../../components/Showcase.astro';
+import Pricing from '../../components/Pricing.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { getStrings, type Lang } from '../../i18n/strings';
+
+const lang: Lang = 'en';
+const t = getStrings(lang);
+
+const apiUrl = import.meta.env.PUBLIC_PLATFORM_API_URL ?? 'http://localhost:3000';
+const appUrl = import.meta.env.PUBLIC_PLATFORM_APP_URL ?? 'http://localhost:5173';
+---
+
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description}>
+  <SiteNav apiUrl={apiUrl} appUrl={appUrl} lang={lang} />
+  <Hero lang={lang} />
+  <Features lang={lang} />
+  <HowItWorks lang={lang} />
+  <Showcase lang={lang} />
+  <Pricing lang={lang} />
+  <Faq lang={lang} />
+  <CtaBanner lang={lang} />
+  <SiteFooter lang={lang} />
+</BaseLayout>

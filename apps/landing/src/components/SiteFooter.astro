@@ -1,44 +1,46 @@
 ---
+import { PATH_FOR_LANG, getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <footer class="site">
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#" style="font-size: 22px;" aria-label="Porvi - home">
+        <a class="brand" href={PATH_FOR_LANG[lang]} style="font-size: 22px;" aria-label="Porvi home">
           <span aria-hidden="true" class="mark"></span>
           <span>P<span class="o">o</span>rvi</span>
         </a>
-        <p>
-          A versioned home on the web - structured editing, clean revisions,
-          portable static output, your own domain.
-        </p>
+        <p>{t.footer.brandTag}</p>
       </div>
       <div>
-        <h5>Platform</h5>
+        <h5>{t.footer.headings.platform}</h5>
         <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#showcase">Sites</a></li>
+          <li><a href="#features">{t.footer.links.features}</a></li>
+          <li><a href="#how">{t.footer.links.how}</a></li>
+          <li><a href="#pricing">{t.footer.links.pricing}</a></li>
+          <li><a href="#showcase">{t.footer.links.sites}</a></li>
         </ul>
       </div>
       <div>
-        <h5>Learn</h5>
+        <h5>{t.footer.headings.learn}</h5>
         <ul>
-          <li><a href="#">Docs</a></li>
-          <li><a href="#">Guides</a></li>
-          <li><a href="#">Changelog</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">{t.footer.links.docs}</a></li>
+          <li><a href="#">{t.footer.links.guides}</a></li>
+          <li><a href="#">{t.footer.links.changelog}</a></li>
+          <li><a href="#faq">{t.footer.links.faq}</a></li>
         </ul>
       </div>
       <div>
-        <h5>Elsewhere</h5>
+        <h5>{t.footer.headings.elsewhere}</h5>
         <ul>
-          <li><a href="#">Status</a></li>
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">Mastodon</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#">{t.footer.links.status}</a></li>
+          <li><a href="#">{t.footer.links.github}</a></li>
+          <li><a href="#">{t.footer.links.mastodon}</a></li>
+          <li><a href="#">{t.footer.links.contact}</a></li>
         </ul>
       </div>
     </div>
@@ -46,12 +48,12 @@
     <div class="foot-wordmark" aria-hidden="true">P<em>o</em>rvi.</div>
 
     <div class="foot-bottom">
-      <span>© 2026 · Porvi · Private preview</span>
+      <span>{t.footer.copyright}</span>
       <a class="foot-eco" href="https://kylehub.dev" target="_blank" rel="noopener">
         <span class="foot-eco-dot" aria-hidden="true"></span>
-        Part of the <span class="foot-eco-name">kylehub</span> ecosystem
+        {t.footer.ecoBefore}<span class="foot-eco-name">{t.footer.ecoName}</span>{t.footer.ecoAfter}
       </a>
-      <span id="foot-version">v1.0.0 · built on Astro</span>
+      <span id="foot-version">{t.footer.build}</span>
     </div>
   </div>
 </footer>

@@ -1,28 +1,33 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <section id="how">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="section-label"><span class="rn">II.</span> The flow</div>
+      <div class="section-label">
+        <span class="section-label__num">{t.flow.label.num}</span>
+        <span class="section-label__sep">/</span>
+        <span class="section-label__text">{t.flow.label.text}</span>
+      </div>
       <h2 class="heading">
-        From structured edit to <em>static output</em> - without ceremony.
+        {t.flow.heading.before}<em>{t.flow.heading.em}</em>{t.flow.heading.after}
       </h2>
-      <p class="section-sub">
-        Write in the Porvi console (or in your own repo). Publish as a numbered
-        revision. Porvi builds, versions, and serves a static bundle under your
-        domain. That is the whole pipeline.
-      </p>
+      <p class="section-sub">{t.flow.sub}</p>
     </div>
 
     <div class="flow">
       <div class="editor reveal">
         <div class="editor-head">
           <div class="editor-tabs">
-            <span class="tab">Overview</span>
-            <span class="tab active">Edit</span>
-            <span class="tab">Revisions</span>
-            <span class="tab">Deploy</span>
+            <span class="tab">{t.flow.editor.tabs.overview}</span>
+            <span class="tab active">{t.flow.editor.tabs.edit}</span>
+            <span class="tab">{t.flow.editor.tabs.revisions}</span>
+            <span class="tab">{t.flow.editor.tabs.deploy}</span>
           </div>
           <div class="editor-meta"><span class="v">v.03</span>almanac.noctua.co</div>
         </div>
@@ -39,64 +44,39 @@
           </div>
           <div class="editor-main">
             <div class="editor-field">
-              <label>Title</label>
-              <div class="val focus">A quiet <em>almanac</em> for the spring.</div>
-            </div>
-            <div class="editor-field">
-              <label>Dek</label>
-              <div class="txt">
-                Notes on light, weather, and the small rituals of making things again
-                after the dark months. Typeset in Fraunces.
+              <label>{t.flow.editor.labelTitle}</label>
+              <div class="val focus">
+                {t.flow.editor.title.before}<em>{t.flow.editor.title.em}</em>{t.flow.editor.title.after}
               </div>
             </div>
             <div class="editor-field">
-              <label>Tags</label>
+              <label>{t.flow.editor.labelDek}</label>
+              <div class="txt">{t.flow.editor.dek}</div>
+            </div>
+            <div class="editor-field">
+              <label>{t.flow.editor.labelTags}</label>
               <div class="txt" style="font-family: var(--mono); font-size: 12px; color: var(--ink-mute);">
-                essay · seasonal · editorial
+                {t.flow.editor.tags}
               </div>
             </div>
           </div>
         </div>
         <div class="editor-foot">
-          <span>draft saved · 2s ago</span>
-          <span class="publish">Publish as v.04</span>
+          <span>{t.flow.editor.saved}</span>
+          <span class="publish">{t.flow.editor.publish}</span>
         </div>
       </div>
 
       <div class="steps reveal d1">
-        <div class="step">
-          <div class="n">i</div>
-          <div>
-            <h4>Author with structure</h4>
-            <p>
-              Write against a typed content model. Fields, collections, and links
-              stay consistent across every page your site renders - in the
-              console, or straight from your editor.
-            </p>
+        {t.flow.steps.map((step, i) => (
+          <div class="step">
+            <div class="n">{String(i + 1).padStart(2, '0')}/</div>
+            <div>
+              <h4>{step.heading}</h4>
+              <p>{step.body}</p>
+            </div>
           </div>
-        </div>
-        <div class="step">
-          <div class="n">ii</div>
-          <div>
-            <h4>Publish as a revision</h4>
-            <p>
-              Each publish is a numbered revision in a readable history. Review,
-              compare against the live version, or roll back - the record stays
-              with the site, not in a terminal scrollback.
-            </p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="n">iii</div>
-          <div>
-            <h4>Serve on your domain</h4>
-            <p>
-              Porvi renders static output, provisions certs, and serves it on
-              your own domain from the edge. The artifact is a portable static
-              bundle - if you ever leave, it comes with you.
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </div>

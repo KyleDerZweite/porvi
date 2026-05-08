@@ -1,56 +1,103 @@
 ---
+import { ALT_LANG, PATH_FOR_LANG, getStrings, type Lang } from '../i18n/strings';
+
 interface Props {
   apiUrl: string;
   appUrl: string;
+  lang: Lang;
 }
 
-const { apiUrl, appUrl } = Astro.props;
+const { apiUrl, appUrl, lang } = Astro.props;
+const t = getStrings(lang);
+const altLang = ALT_LANG[lang];
+const altPath = PATH_FOR_LANG[altLang];
 ---
 
 <nav class="top">
   <div class="wrap nav-inner">
-    <a class="brand" href="#" aria-label="Porvi - home">
+    <a class="brand" href={PATH_FOR_LANG[lang]} aria-label="Porvi home">
       <span aria-hidden="true" class="mark"></span>
       <span>P<span class="o">o</span>rvi</span>
     </a>
     <div class="nav-links">
-      <a href="#features">Platform</a>
-      <a href="#how">How it works</a>
-      <a href="#showcase">Sites</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#features">{t.nav.platform}</a>
+      <a href="#how">{t.nav.how}</a>
+      <a href="#showcase">{t.nav.sites}</a>
+      <a href="#pricing">{t.nav.pricing}</a>
+      <a href="#faq">{t.nav.faq}</a>
     </div>
-    <a id="nav-console" class="nav-cta is-loading" href={appUrl} hidden>
-      <span id="nav-console-label">Open console</span>
-      <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path
-          d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
-          stroke="currentColor"
-          stroke-width="1.4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </a>
-    <button id="nav-signin" class="nav-cta is-loading" type="button" hidden>
-      Sign in
-      <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path
-          d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
-          stroke="currentColor"
-          stroke-width="1.4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </button>
+
+    <div class="nav-actions">
+      <a class="lang-switch" href={altPath} hreflang={altLang} aria-label={t.nav.ariaLangSwitch}>
+        <span class={`lang-switch__tag ${lang === 'de' ? 'lang-switch__tag--active' : ''}`}>DE</span>
+        <span class={`lang-switch__tag ${lang === 'en' ? 'lang-switch__tag--active' : ''}`}>EN</span>
+      </a>
+
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label={t.nav.ariaThemeToggle} title={t.nav.ariaThemeToggle}>
+        <span class="glyph" aria-hidden="true">◐</span>
+      </button>
+
+      <a id="nav-console" class="nav-cta is-loading" href={appUrl} hidden>
+        <span id="nav-console-label">{t.nav.openConsole}</span>
+        <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+      <button id="nav-signin" class="nav-cta is-loading" type="button" hidden>
+        {t.nav.signIn}
+        <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 
-<script define:vars={{ apiUrl, appUrl }}>
+<script is:inline define:vars={{ apiUrl, appUrl, lang }}>
   const navConsole = document.getElementById('nav-console');
   const navSignin = document.getElementById('nav-signin');
+  const themeToggle = document.getElementById('theme-toggle');
   let primaryProvider = null;
+
+  function resolvedTheme() {
+    const stored = localStorage.getItem('porvi-theme');
+    if (stored === 'light' || stored === 'dark') return stored;
+    return 'light';
+  }
+
+  function renderTheme() {
+    const theme = resolvedTheme();
+    document.documentElement.dataset.theme = theme;
+    if (themeToggle) {
+      const glyph = themeToggle.querySelector('.glyph');
+      if (glyph) glyph.textContent = theme === 'dark' ? '☼' : '◐';
+      const labelTo = theme === 'dark'
+        ? (lang === 'de' ? 'Helles Thema' : 'Light theme')
+        : (lang === 'de' ? 'Dunkles Thema' : 'Dark theme');
+      themeToggle.setAttribute('aria-label', labelTo);
+      themeToggle.setAttribute('title', labelTo);
+    }
+  }
+
+  themeToggle?.addEventListener('click', () => {
+    const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('porvi-theme', next);
+    renderTheme();
+  });
+
+  renderTheme();
 
   function setLoading(isLoading) {
     navConsole?.classList.toggle('is-loading', isLoading);

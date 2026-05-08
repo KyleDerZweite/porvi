@@ -1,23 +1,25 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <section id="cta" style="padding-top: 0;">
   <div class="wrap">
     <div class="cta-banner reveal">
       <div>
-        <h3>Start a home on the web - <em>one you'll keep.</em></h3>
-        <p>
-          Porvi is in private preview. Leave your email and we'll share access
-          as slots open. One message when there's room - nothing else.
-        </p>
+        <h3>{t.cta.heading.before}<em>{t.cta.heading.em}</em></h3>
+        <p>{t.cta.body}</p>
       </div>
       <div class="cta-right">
-        <form id="invite-form" class="invite-form">
-          <input type="email" required placeholder="you@domain.tld" aria-label="Email address" />
-          <button type="submit" class="btn btn-primary">Request access</button>
+        <form id="invite-form" class="invite-form" data-on-list={t.cta.onList}>
+          <input type="email" required placeholder={t.cta.placeholder} aria-label={t.cta.aria} />
+          <button type="submit" class="btn btn-primary">{t.cta.cta}</button>
         </form>
         <span style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em;">
-          Private preview · one email when a spot opens.
+          {t.cta.note}
         </span>
       </div>
     </div>
@@ -25,10 +27,11 @@
 </section>
 
 <script>
-  const inviteForm = document.getElementById('invite-form');
+  const inviteForm = document.getElementById('invite-form') as HTMLFormElement | null;
   inviteForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const button = inviteForm.querySelector('button');
-    if (button) button.textContent = 'On the list ✓';
+    const onList = inviteForm.dataset.onList ?? 'On the list ✓';
+    if (button) button.textContent = onList;
   });
 </script>

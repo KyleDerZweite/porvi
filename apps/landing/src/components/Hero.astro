@@ -1,26 +1,26 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <header class="hero hero-full">
   <div class="wrap">
     <h1 class="display display-xl reveal">
-      Your personal<br />
-      web presence,<br />
-      <em>versioned</em>, and yours<br />
-      to keep.
+      {t.hero.titleLines.map((line) => (<>{line}<br /></>))}
+      <em>{t.hero.titleEm}</em>{t.hero.titleTail}
     </h1>
 
     <div class="hero-foot">
       <p class="lede reveal d1">
-        Porvi is a creator-site platform built around structured content,
-        clean revisions, and portable static output. You write in a real
-        console, each publish is a numbered revision, and your site is served
-        on <em>your</em> domain - not a subpath of ours.
+        {t.hero.lede.before}<em>{t.hero.lede.em}</em>{t.hero.lede.after}
       </p>
 
       <div class="hero-cta reveal d2">
         <a class="btn btn-primary" href="#cta">
-          Request early access
+          {t.hero.ctaPrimary}
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path
               d="M2.5 6h7M6 2.5 9.5 6 6 9.5"
@@ -31,12 +31,12 @@
             />
           </svg>
         </a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
+        <a class="btn btn-ghost" href="#how">{t.hero.ctaGhost}</a>
       </div>
     </div>
 
-    <a class="scroll-cue reveal d3" href="#features" aria-label="Scroll to explore">
-      <span class="scroll-cue-label">Scroll</span>
+    <a class="scroll-cue reveal d3" href="#features" aria-label={t.hero.scroll}>
+      <span class="scroll-cue-label">{t.hero.scroll}</span>
       <span class="scroll-cue-rail" aria-hidden="true">
         <svg width="14" height="44" viewBox="0 0 14 44" fill="none">
           <path d="M7 2 v30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
@@ -46,22 +46,12 @@
     </a>
 
     <div class="hero-meta reveal">
-      <div class="meta-cell">
-        <div class="num">Structured</div>
-        <div class="label">Content with a shape</div>
-      </div>
-      <div class="meta-cell">
-        <div class="num"><em>Versioned</em></div>
-        <div class="label">Every publish, kept</div>
-      </div>
-      <div class="meta-cell">
-        <div class="num">Your domain</div>
-        <div class="label">Certs handled for you</div>
-      </div>
-      <div class="meta-cell">
-        <div class="num">Portable</div>
-        <div class="label">Static output, yours</div>
-      </div>
+      {t.hero.meta.map((cell) => (
+        <div class="meta-cell">
+          <div class="num">{cell.em ? <em>{cell.num}</em> : cell.num}</div>
+          <div class="label">{cell.label}</div>
+        </div>
+      ))}
     </div>
   </div>
 </header>

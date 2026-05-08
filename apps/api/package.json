@@ -8,19 +8,19 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx watch src/index.ts",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --exclude 'dist/**'",
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@hono/node-server": "^2.0.1",
+    "@hono/zod-validator": "^0.7.6",
     "@porvi/platform-auth": "workspace:*",
     "@porvi/platform-contracts": "workspace:*",
     "@porvi/platform-core": "workspace:*",
     "@porvi/platform-db": "workspace:*",
-    "@hono/node-server": "^1.14.1",
-    "@hono/zod-validator": "^0.4.3",
-    "hono": "^4.7.7"
+    "hono": "^4.12.18"
   },
   "devDependencies": {
-    "tsx": "^4.19.4"
+    "tsx": "^4.21.0"
   }
 }

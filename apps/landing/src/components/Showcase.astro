@@ -1,16 +1,23 @@
 ---
+import { getStrings, type Lang } from '../i18n/strings';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getStrings(lang);
 ---
 
 <section id="showcase">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="section-label"><span class="rn">III.</span> In the wild</div>
-      <h2 class="heading">A few <em>sites</em> kept on Porvi.</h2>
-      <p class="section-sub">
-        Each one is its own project - different typography, different rhythm,
-        different voice. Same structured editing and versioned publishing
-        underneath.
-      </p>
+      <div class="section-label">
+        <span class="section-label__num">{t.showcase.label.num}</span>
+        <span class="section-label__sep">/</span>
+        <span class="section-label__text">{t.showcase.label.text}</span>
+      </div>
+      <h2 class="heading">
+        {t.showcase.heading.before}<em>{t.showcase.heading.em}</em>{t.showcase.heading.after}
+      </h2>
+      <p class="section-sub">{t.showcase.sub}</p>
     </div>
 
     <div class="showcase">
@@ -35,7 +42,7 @@
         </div>
         <div class="site-foot">
           <span class="domain">almanac.noctua.co</span>
-          <span class="status"><span class="live"></span> Live · v.03</span>
+          <span class="status"><span class="live"></span> {t.showcase.live} · v.03</span>
         </div>
       </div>
 
@@ -59,7 +66,7 @@
         </div>
         <div class="site-foot">
           <span class="domain">fieldnotes.orell.me</span>
-          <span class="status"><span class="live"></span> Live · v.18</span>
+          <span class="status"><span class="live"></span> {t.showcase.live} · v.18</span>
         </div>
       </div>
 
@@ -86,7 +93,7 @@
         </div>
         <div class="site-foot">
           <span class="domain">rk.studio</span>
-          <span class="status"><span class="live"></span> Live · v.07</span>
+          <span class="status"><span class="live"></span> {t.showcase.live} · v.07</span>
         </div>
       </div>
     </div>
