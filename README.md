@@ -53,3 +53,15 @@ pnpm run build
 
 This repository is licensed under [`AGPL-3.0-only`](LICENSE). See
 [REUSE.toml](REUSE.toml) for the canonical repo-wide licensing metadata.
+
+## Canonical Repository
+
+Codeberg is the authoritative source for Porvi development:
+
+- Main repository: <https://codeberg.org/Porvi/porvi>
+- CLI entry point: <https://codeberg.org/Porvi/cli>
+- Documentation repository: <https://codeberg.org/Porvi/docs>
+
+The GitHub repository at <https://github.com/KyleDerZweite/porvi> is a mirror
+and community presence for discoverability. It is not the canonical place for
+issues, project state, or development history.
